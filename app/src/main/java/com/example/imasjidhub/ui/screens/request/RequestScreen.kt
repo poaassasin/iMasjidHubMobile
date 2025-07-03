@@ -1,0 +1,226 @@
+package com.example.imasjidhub.ui.screens.request
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.material3.CardDefaults.cardColors
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.imasjidhub.R
+import com.example.imasjidhub.ui.theme.AppText
+import com.example.imasjidhub.ui.theme.poppinsMedium
+
+@Composable
+fun RequestScreen(navController: NavController) {
+    val selectedButton = rememberSaveable { mutableStateOf("request") }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.bg_main_imasjidhub),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.matchParentSize()
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .systemBarsPadding()
+                .padding(horizontal = 24.dp, vertical = 48.dp)
+        ) {
+            // Top Bar
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 32.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back),
+                    contentDescription = "Back",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .size(42.dp)
+                        .clickable { navController.navigate("profil") }
+                )
+                Spacer(modifier = Modifier.width(60.dp))
+                Text(
+                    text = "Request Demand",
+                    fontFamily = poppinsMedium,
+                    fontWeight = FontWeight.W500,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp)
+                    .clip(RoundedCornerShape(50.dp))
+                    .border(1.dp, AppText.Main, RoundedCornerShape(50.dp)),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(
+                    onClick = {
+                        selectedButton.value = "event"
+                        navController.navigate("event") // Masih ada tombol event, tapi screen-nya bisa lo matiin
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .padding(end = 2.dp),
+                    shape = RoundedCornerShape(80.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (selectedButton.value == "event") AppText.Third else Color.Transparent,
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text(text = "Event", style = MaterialTheme.typography.bodyLarge)
+                }
+
+                Button(
+                    onClick = {
+                        selectedButton.value = "request"
+                        // Tetap di sini aja
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .padding(start = 2.dp),
+                    shape = RoundedCornerShape(80.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (selectedButton.value == "request") AppText.Third else Color.Transparent,
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text(text = "Inventaris", style = MaterialTheme.typography.bodyLarge)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+            DemandCard()
+        }
+    }
+}
+
+@Composable
+fun DemandCard() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .border(1.dp, AppText.Main, RoundedCornerShape(24.dp)),
+        shape = RoundedCornerShape(24.dp),
+        colors = cardColors(containerColor = AppText.Fourth)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            // ✅ Kiri: Kolom 1
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = "Kategori",
+                    fontSize = 14.sp,
+                    color = AppText.Main,
+                    fontFamily = poppinsMedium,
+                    fontWeight = FontWeight.W500
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "Elektronik",
+                    fontSize = 12.sp,
+                    color = AppText.Main,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "Nama Barang",
+                    fontSize = 14.sp,
+                    color = AppText.Main,
+                    fontFamily = poppinsMedium,
+                    fontWeight = FontWeight.W500
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "MIC",
+                    fontSize = 12.sp,
+                    color = AppText.Main,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "Jumlah",
+                    fontSize = 14.sp,
+                    color = Color.White,
+                    fontFamily = poppinsMedium,
+                    fontWeight = FontWeight.W500
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "2 unit",
+                    fontSize = 12.sp,
+                    color = AppText.Main
+                )
+            }
+
+            VerticalDivider(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(1.dp),
+                color = AppText.Main
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = "Alasan",
+                    fontSize = 14.sp,
+                    color = AppText.Main,
+                    fontFamily = poppinsMedium,
+                    fontWeight = FontWeight.W500,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+                Text(
+                    text = "-",
+                    fontSize = 12.sp,
+                    color = AppText.Main
+                )
+            }
+        }
+    }
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    HorizontalDivider(
+        modifier = Modifier.fillMaxWidth(),
+        color = AppText.Main.copy(alpha = 0.6f)
+    )
+}
+
